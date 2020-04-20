@@ -2,6 +2,7 @@ import React, { useState, useEffect, } from "react";
 import './style.scss';
 import Login from './Login'
 import Register from './Register'
+import fire from "../../config/Fire";
 
 
 class App extends React.Component {
@@ -30,13 +31,6 @@ class App extends React.Component {
     this.setState(prevState => ({ isLogginActive: !prevState.isLogginActive }));
   }
 
-  handleLogin = (data) => {
-    console.log(data)
-  }
-
-  handleRegister = (data) => {
-    console.log(data)
-  }
   
   render() {
     const { isLogginActive } = this.state;
@@ -47,10 +41,10 @@ class App extends React.Component {
         <div className="login">
           <div className="container" ref={ref => (this.container = ref)}>
             {isLogginActive && (
-              <Login containerRef={ref => (this.current = ref)} onSend={this.handleLogin} />
+              <Login containerRef={ref => (this.current = ref)} />
             )}
             {!isLogginActive && (
-              <Register containerRef={ref => (this.current = ref)} onSend={this.handleRegister}/>
+              <Register containerRef={ref => (this.current = ref)}/>
             )}
           </div>
           <RightSide

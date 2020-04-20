@@ -1,18 +1,25 @@
 import React, { useRef } from "react";
 import loginImg from "../../../login.svg";
+import fire from "../../../config/Fire";
 
 
-const Register = ({ containerRef, onSend }) => {
-  const userNameValue = useRef()
+const Register = ({ containerRef, onSend }) => {  
   const emailValue = useRef()
   const passwordValue = useRef()
 
-  const handleClick = () => {
-    const username = userNameValue.current.value
+  const handleRegister = (user) => {
+    fire.auth().createUserWithEmailAndPassword(user.email, user.password)      
+      .catch((error) => {
+        console.log(error)
+      })
+  }
+
+  const handleClick = (e) => {
+    e.preventDefault()
     const email = emailValue.current.value
-    const password = passwordValue.current.value
-    
-    onSend({ username, email, password })
+    const password = passwordValue.current.value    
+    handleRegister({email, password})
+
   }
   return (
     <div className="base-container" ref={containerRef}>
@@ -21,16 +28,7 @@ const Register = ({ containerRef, onSend }) => {
         <div className="image">
           <img src={loginImg} />
         </div>
-        <div className="form">
-          <div className="form-group">
-            <label htmlFor="username">Username</label>
-            <input
-              type="text"
-              name="username"
-              placeholder="username"
-              ref={userNameValue}
-            />
-          </div>
+        <div className="form">          
           <div className="form-group">
             <label htmlFor="email">Email</label>
             <input
