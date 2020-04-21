@@ -1,5 +1,5 @@
 
-import React, {useRef} from "react";
+import React, { useRef } from "react";
 import loginImg from "../../../login.svg";
 import fire from "../../../config/Fire";
 
@@ -10,16 +10,32 @@ const Login = ({ containerRef, onSend }) => {
 
     const handleLogin = (user) => {
         fire.auth().signInWithEmailAndPassword(user.email, user.password)
-          .then((u) =>{})
-          .catch((error) => {
-            console.log(error)
-          })
+            .then((u) => { })
+            .catch((error) => {
+                console.log(error)
+                validateLogin(error)
+            })
+    }
+    const validateLogin = (error) => {
+        switch (error.code) {
+            case 'auth/user-not-found':
+                alert('El usuario aun no está registrado')
+                break;
+            case 'auth/invalid-email':
+                alert('¡El email no es valido!')
+                break;
+            case 'auth/wrong-password':
+                alert('La contraseña es incorrecta, ingresela nuevamente')
+                break;
+            default:
+                break;
+        }
     }
     const handleClick = () => {
         const email = emailValue.current.value
         const password = passwordValue.current.value
 
-        handleLogin({email,password})
+        handleLogin({ email, password })
     }
 
     return (
@@ -35,17 +51,17 @@ const Login = ({ containerRef, onSend }) => {
                         <input
                             type="text"
                             name="email"
-                            placeholder="email"        
-                            ref={emailValue}                    
+                            placeholder="email"
+                            ref={emailValue}
                         />
                     </div>
                     <div className="form-group">
                         <label htmlFor="password">Password</label>
-                        <input 
-                            type="password" 
-                            name="password" 
-                            placeholder="password" 
-                            ref={passwordValue}  
+                        <input
+                            type="password"
+                            name="password"
+                            placeholder="password"
+                            ref={passwordValue}
                         />
                     </div>
                 </div>

@@ -3,22 +3,34 @@ import loginImg from "../../../login.svg";
 import fire from "../../../config/Fire";
 
 
-const Register = ({ containerRef, onSend }) => {  
+const Register = ({ containerRef, onSend }) => {
   const emailValue = useRef()
   const passwordValue = useRef()
 
   const handleRegister = (user) => {
-    fire.auth().createUserWithEmailAndPassword(user.email, user.password)      
+    fire.auth().createUserWithEmailAndPassword(user.email, user.password)
       .catch((error) => {
         console.log(error)
+        validateRegister(error)
       })
   }
-
+  const validateRegister = (error) => {
+    switch (error.code) {
+      case 'auth/invalid-email':
+        alert('¡El email no es valido!')
+        break;
+      case 'auth/weak-password':
+        alert('La contraseña es demasiado corta')
+        break;
+      default:
+        break;
+    }
+  }
   const handleClick = (e) => {
     e.preventDefault()
     const email = emailValue.current.value
-    const password = passwordValue.current.value    
-    handleRegister({email, password})
+    const password = passwordValue.current.value
+    handleRegister({ email, password })
 
   }
   return (
@@ -28,7 +40,7 @@ const Register = ({ containerRef, onSend }) => {
         <div className="image">
           <img src={loginImg} />
         </div>
-        <div className="form">          
+        <div className="form">
           <div className="form-group">
             <label htmlFor="email">Email</label>
             <input

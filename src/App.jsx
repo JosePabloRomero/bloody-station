@@ -31,8 +31,8 @@ class App extends Component {
   }
   render() {
     return (
-      <div>{this.state.user ? (<Home />) : (<LoginRegister/>)}</div>
-      )
-}
+      <div>{this.state.user ? (<Home />) : (<LoginRegister />)}</div>
+    )
+  }
 }
 export default App;

@@ -1,5 +1,5 @@
 import firebase from 'firebase'
-
+import 'firebase/firestore'
 const config = {
     apiKey: "AIzaSyD04cUMfpyEvkb2TjGexg5UbnoHwok0EwM",
     authDomain: "bloody-station.firebaseapp.com",
