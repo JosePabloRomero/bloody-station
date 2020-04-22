@@ -2,7 +2,7 @@
 import React, { useRef } from "react";
 import loginImg from "../../../login.svg";
 import fire from "../../../config/Fire";
-
+//import {Button }from '@material-ui/core'
 
 const Login = ({ containerRef, onSend }) => {
     const emailValue = useRef()
@@ -67,9 +67,12 @@ const Login = ({ containerRef, onSend }) => {
                 </div>
             </div>
             <div className="footer">
-                <button type="button" className="btn" onClick={handleClick}>
+                 <button type="button" className="btn" onClick={handleClick}>
                     Login
                 </button>
+                {/* <Button color='primary' variant='outlined' onClick={handleClick}>
+                    Login
+                </Button> */}
             </div>
         </div>
     )
