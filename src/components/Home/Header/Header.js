@@ -15,7 +15,7 @@ const Header = () => {
         <AppBar position="static">
             <Toolbar>
                 <Typography className={classes.typographyStyles}>
-                    This ir our header                    
+                    Bloody Station                 
                 </Typography>
                 <HomeIcon />
             </Toolbar>
