@@ -16,7 +16,7 @@ export default [
     {
         title: "Dashboard",      
         description:
-          "Mira estadisticas e indicadores del flujo de donaciones relaziadas.",      
+          "Mira estadisticas e indicadores del flujo de donaciones realizadas.",      
         imageUrl:
           "https://images.pexels.com/photos/669612/pexels-photo-669612.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"
     }
