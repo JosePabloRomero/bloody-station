@@ -1,8 +1,15 @@
 import React, { Component, useState, useEffect, } from "react";
 import "./App.scss";
+import { BrowserRouter, Route, Redirect } from 'react-router-dom'
 import LoginRegister from './components/LoginRegister';
 import Home from './components/Home';
 import fire from "./config/Fire";
+import Hospitales from './components/Hospitales'
+import HospitalesList from './components/Hospitales/HospitalesList.js'
+import Header from './components/Home/Header'
+const navigation = () => {
+
+}
 
 class App extends Component {
   constructor() {
@@ -29,10 +36,31 @@ class App extends Component {
       }
     });
   }
+
   render() {
     return (
-      <div>{this.state.user ? (<Home />) : (<LoginRegister />)}</div>
+      <BrowserRouter>
+        <div>
+          {this.state.user ? (<Redirect to="/Home" />) : (<Redirect to="/LoginRegister" />)}
+        </div>
+        <Route path="/Home">
+          <Header />
+          <Home />
+        </Route>
+        <Route path="/LoginRegister">
+          <LoginRegister />
+        </Route>
+        <Route path="/Hospitales" >
+          <Header />
+          <Hospitales />
+        </Route>
+        <Route path="/Hospitales/ListaHospitales" >          
+          <HospitalesList />
+        </Route>
+      </BrowserRouter>
+
     )
   }
 }
+
 export default App;

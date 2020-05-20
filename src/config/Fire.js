@@ -11,4 +11,5 @@ const config = {
     measurementId: "G-C3HTC202FK"
 }
 const fire = firebase.initializeApp(config);
+const db = firebase.firestore();
 export default fire;
