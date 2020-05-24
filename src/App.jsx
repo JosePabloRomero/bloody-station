@@ -6,6 +6,7 @@ import Home from './components/Home';
 import fire from "./config/Fire";
 import Hospitales from './components/Hospitales'
 import HospitalesList from './components/Hospitales/HospitalesList.js'
+import HospitalesAdd from './components/Hospitales/HospitalesAdd.js'
 import Header from './components/Home/Header'
 const navigation = () => {
 
@@ -56,6 +57,9 @@ class App extends Component {
         </Route>
         <Route path="/Hospitales/ListaHospitales" >          
           <HospitalesList />
+        </Route>
+        <Route path="/Hospitales/AgregarHospital" >          
+          <HospitalesAdd />
         </Route>
       </BrowserRouter>
 

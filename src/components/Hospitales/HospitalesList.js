@@ -99,7 +99,7 @@ const App = () => {
                                                 <div className={classes.typographyStyles}>
                                                     <Typography>{hospital.nombre}
                                                     </Typography>
-                                                    {showDetails && <DetallesHospital latitud={hospital.latitud} longitud={hospital.logitud} codigo={hospital.codigo} />}
+                                                    {showDetails && <DetallesHospital latitud={hospital.latitud} longitud={hospital.longitud} codigo={hospital.codigo} />}
 
                                                 </div>
                                             </li>
