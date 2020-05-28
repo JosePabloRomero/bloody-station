@@ -7,8 +7,6 @@ import CardHeader from "@material-ui/core/CardHeader";
 import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import { CardMedia } from "@material-ui/core";
-import Header from '../Home/Header'
-import SolicitudEspecifica from '../Solicitudes/SolicitudEspecifica.js'
 import { Link } from 'react-router-dom';
 const useStyles = makeStyles(() => ({
     root: {

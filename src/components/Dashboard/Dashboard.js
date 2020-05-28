@@ -18,7 +18,7 @@ import Link from '@material-ui/core/Link';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NotificationsIcon from '@material-ui/icons/Notifications';
-import { mainListItems, secondaryListItems } from './listItems';
+import { mainListItems } from './listItems';
 
 import Chart from './Chart';
 import Deposits from './Deposits';
@@ -28,8 +28,8 @@ function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       {'Copyright © '}
-      <Link color="inherit" href="https://material-ui.com/">
-        Your Website
+      <Link color="inherit" href="#">
+        Amuray INC
       </Link>{' '}
       {new Date().getFullYear()}
       {'.'}
@@ -48,13 +48,14 @@ const useStyles = makeStyles((theme) => ({
   },
   toolbarIcon: {
     display: 'flex',
-    alignItems: 'center',
+    alignItems: 'center',    
     justifyContent: 'flex-end',
     padding: '0 8px',
     ...theme.mixins.toolbar,
   },
   appBar: {
     zIndex: theme.zIndex.drawer + 1,
+    background: 'linear-gradient(45deg, #E03A3F 30%, #FF8E53 90%)',
     transition: theme.transitions.create(['width', 'margin'], {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
@@ -80,6 +81,8 @@ const useStyles = makeStyles((theme) => ({
   drawerPaper: {
     position: 'relative',
     whiteSpace: 'nowrap',
+    background: '#E03A3F',
+    color: "#fff",
     width: drawerWidth,
     transition: theme.transitions.create('width', {
       easing: theme.transitions.easing.sharp,
@@ -144,7 +147,7 @@ export default function Dashboard() {
             <MenuIcon />
           </IconButton>
           <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
-            Dashboard
+            Dashboard - Bloody Station
           </Typography>
           <IconButton color="inherit">
             <Badge badgeContent={4} color="secondary">
@@ -167,8 +170,7 @@ export default function Dashboard() {
         </div>
         <Divider />
         <List>{mainListItems}</List>
-        <Divider />
-        <List>{secondaryListItems}</List>
+        <Divider />        
       </Drawer>
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />

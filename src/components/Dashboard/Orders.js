@@ -1,68 +1,82 @@
-import React from 'react';
-import Link from '@material-ui/core/Link';
-import { makeStyles } from '@material-ui/core/styles';
+import React, {useState, useEffect} from 'react';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Title from './Title';
-
+import fire from '../../config/Fire.js'
 // Generate Order Data
-function createData(id, date, name, shipTo, paymentMethod, amount) {
-  return { id, date, name, shipTo, paymentMethod, amount };
+function createData(id, nombre, cedula, correo, donaciones, tipoSangre) {
+  return { id, nombre, cedula, correo, donaciones, tipoSangre };
 }
 
-const rows = [
-  createData(0, '16 Mar, 2019', 'Elvis Presley', 'Tupelo, MS', 'VISA ⠀•••• 3719', 312.44),
-  createData(1, '16 Mar, 2019', 'Paul McCartney', 'London, UK', 'VISA ⠀•••• 2574', 866.99),
-  createData(2, '16 Mar, 2019', 'Tom Scholz', 'Boston, MA', 'MC ⠀•••• 1253', 100.81),
-  createData(3, '16 Mar, 2019', 'Michael Jackson', 'Gary, IN', 'AMEX ⠀•••• 2000', 654.39),
-  createData(4, '15 Mar, 2019', 'Bruce Springsteen', 'Long Branch, NJ', 'VISA ⠀•••• 5919', 212.79),
-];
-
-function preventDefault(event) {
-  event.preventDefault();
+const rows = [];
+function agregarDatos(listaUsuarios) {
+  listaUsuarios.sort(function (a, b) {
+    if (a.donaciones > b.donaciones) {
+      return 1;
+    }
+    if (a.donaciones < b.donaciones) {
+      return -1;
+    }
+    // a must be equal to b
+    return 0;
+  });
+  listaUsuarios.reverse()
+  listaUsuarios.forEach(element => {
+    rows.push(createData(element.uid, element.nombres + " " + element.apellidos, element.cedula, element.correo, element.donaciones, element.tipoSangre))
+  });
 }
 
-const useStyles = makeStyles((theme) => ({
-  seeMore: {
-    marginTop: theme.spacing(3),
-  },
-}));
+function useListaUsuarios() {
+  const [listaUsuarios, setListaUsuarios] = useState([])
 
+  useEffect(() => {    
+      fire
+          .database()
+          .ref('Usuario/')
+          .on('value', snapshot => {
+              const newUser = snapshot.val()
+              const listaUsuarios = Object.keys(newUser).map(key => ({
+                  ...newUser[key],
+                  donaciones: parseInt(newUser[key].donaciones),               
+                  uid: key,
+              }))
+              setListaUsuarios(listaUsuarios)
+          })          
+  }, [])
+  return listaUsuarios
+}
 export default function Orders() {
-  const classes = useStyles();
+  const listaUsuarios = useListaUsuarios();
+  agregarDatos(listaUsuarios)
+  
   return (
     <React.Fragment>
-      <Title>Recent Orders</Title>
+      <Title>Top Donadores de sangre</Title>
       <Table size="small">
         <TableHead>
           <TableRow>
-            <TableCell>Date</TableCell>
-            <TableCell>Name</TableCell>
-            <TableCell>Ship To</TableCell>
-            <TableCell>Payment Method</TableCell>
-            <TableCell align="right">Sale Amount</TableCell>
+            <TableCell>Nombre</TableCell>
+            <TableCell>Cedula</TableCell>
+            <TableCell>Correo</TableCell>
+            <TableCell>Cantidad Donaciones</TableCell>
+            <TableCell align="right">Tipo de sangre</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {rows.map((row) => (
             <TableRow key={row.id}>
-              <TableCell>{row.date}</TableCell>
-              <TableCell>{row.name}</TableCell>
-              <TableCell>{row.shipTo}</TableCell>
-              <TableCell>{row.paymentMethod}</TableCell>
-              <TableCell align="right">{row.amount}</TableCell>
+              <TableCell>{row.nombre}</TableCell>
+              <TableCell>{row.cedula}</TableCell>
+              <TableCell>{row.correo}</TableCell>
+              <TableCell>{row.donaciones}</TableCell>
+              <TableCell align="right">{row.tipoSangre}</TableCell>
             </TableRow>
           ))}
         </TableBody>
-      </Table>
-      <div className={classes.seeMore}>
-        <Link color="primary" href="#" onClick={preventDefault}>
-          See more orders
-        </Link>
-      </div>
+      </Table>      
     </React.Fragment>
   );
 }

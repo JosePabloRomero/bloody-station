@@ -2,69 +2,55 @@ import React from 'react';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import ListSubheader from '@material-ui/core/ListSubheader';
 import DashboardIcon from '@material-ui/icons/Dashboard';
-import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
+import LocalHospitalIcon from '@material-ui/icons/LocalHospital';
+import { Link } from 'react-router-dom'
 import PeopleIcon from '@material-ui/icons/People';
-import BarChartIcon from '@material-ui/icons/BarChart';
-import LayersIcon from '@material-ui/icons/Layers';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import AssignmentIcon from '@material-ui/icons/Assignment';
+import HomeIcon from '@material-ui/icons/Home';
+import fire from '../../config/Fire'
 
-export const mainListItems = (
-  <div>
+const logOutClick = () => {
+  fire.auth().signOut()
+}
+export const mainListItems = (  
+  <div >
     <ListItem button>
       <ListItemIcon>
-        <DashboardIcon />
+        <DashboardIcon style={{color: '#fff'}}/>
       </ListItemIcon>
       <ListItemText primary="Dashboard" />
     </ListItem>
-    <ListItem button>
+    <ListItem button component={Link} to={"/Solicitudes"}>
       <ListItemIcon>
-        <ShoppingCartIcon />
+        <AssignmentIcon style={{color: '#fff'}}/>
       </ListItemIcon>
-      <ListItemText primary="Orders" />
+      <ListItemText primary="Modulo Solicitudes" />
     </ListItem>
-    <ListItem button>
+    <ListItem button component={Link} to={"/Personal"}>
       <ListItemIcon>
-        <PeopleIcon />
+        <PeopleIcon style={{color: '#fff'}}/>
       </ListItemIcon>
-      <ListItemText primary="Customers" />
+      <ListItemText primary="Control de Personal" />
     </ListItem>
-    <ListItem button>
+    <ListItem button component={Link} to={"/Hospitales"}>
       <ListItemIcon>
-        <BarChartIcon />
+        <LocalHospitalIcon style={{color: '#fff'}}/>
       </ListItemIcon>
-      <ListItemText primary="Reports" />
+      <ListItemText primary="Modulo de Hospitales" />
     </ListItem>
-    <ListItem button>
+    <ListItem button component={Link} to={"/Home"}>
       <ListItemIcon>
-        <LayersIcon />
+        <HomeIcon style={{color: '#fff'}}/>
       </ListItemIcon>
-      <ListItemText primary="Integrations" />
+      <ListItemText primary="Volver al Inicio" />
     </ListItem>
-  </div>
-);
-
-export const secondaryListItems = (
-  <div>
-    <ListSubheader inset>Saved reports</ListSubheader>
-    <ListItem button>
+    <ListItem button onClick={() => logOutClick()}>
       <ListItemIcon>
-        <AssignmentIcon />
+        <ExitToAppIcon style={{color: '#fff'}}/>
       </ListItemIcon>
-      <ListItemText primary="Current month" />
-    </ListItem>
-    <ListItem button>
-      <ListItemIcon>
-        <AssignmentIcon />
-      </ListItemIcon>
-      <ListItemText primary="Last quarter" />
-    </ListItem>
-    <ListItem button>
-      <ListItemIcon>
-        <AssignmentIcon />
-      </ListItemIcon>
-      <ListItemText primary="Year-end sale" />
+      <ListItemText primary="Salir de Bloody Station" />
     </ListItem>
   </div>
 );
