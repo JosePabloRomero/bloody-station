@@ -97,7 +97,7 @@ const App = () => {
                                                             </Typography>
                                                         </div>
                                                     </CardContent>
-                                                    <CardActions>
+                                                    {/* <CardActions>
                                                         <Button
                                                             size="small"
                                                             variant="contained"
@@ -105,7 +105,7 @@ const App = () => {
                                                             to={hospital.url}>
                                                             Ver Ubicación
                                                         </Button>
-                                                    </CardActions>
+                                                    </CardActions> */}
                                                 </Card>
                                             </Grid>
                                         )}
