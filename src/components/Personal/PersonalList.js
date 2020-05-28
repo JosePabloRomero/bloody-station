@@ -93,7 +93,7 @@ const App = () => {
                                     <Grid item container spacing={2} style={{ paddingTop: '20px', paddingBottom: '20px', paddingLeft: '20px', paddingRight: '20px' }}>
                                         {personalList.map((personal) =>
 
-                                            <Grid item item xs={12} sm={4} key={personal.uid}>
+                                            <Grid item xs={12} sm={4} key={personal.uid}>
                                                 <Card>
                                                     <CardHeader
                                                         title={personal.nombres + " " + personal.apellidos}

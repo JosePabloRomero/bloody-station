@@ -12,6 +12,7 @@ import Personal from './components/Personal'
 import Dashboard from './components/Dashboard'
 import PersonalList from './components/Personal/PersonalList.js'
 import PersonalAdd from './components/Personal/PersonalAdd.js'
+import EditarPersonal from './components/Personal/PersonalEdit.js'
 import Solicitudes from './components/Solicitudes'
 import ListaSolicitudes from './components/Solicitudes/ListaSolicitudes.js'
 import AgregarSolicitud from './components/Solicitudes/SolicitudesAdd.js'
@@ -84,6 +85,9 @@ class App extends Component {
         </Route>
         <Route path="/Personal/ListaPersonal" >
           <PersonalList />
+        </Route>
+        <Route path="/Personal/EditarPersonal" >
+          <EditarPersonal />
         </Route>
         <Route path="/Solicitudes" >
           <Header />
