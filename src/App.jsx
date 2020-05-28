@@ -9,6 +9,7 @@ import HospitalesList from './components/Hospitales/HospitalesList.js'
 import HospitalesAdd from './components/Hospitales/HospitalesAdd.js'
 import Header from './components/Home/Header'
 import Personal from './components/Personal'
+import Dashboard from './components/Dashboard'
 import PersonalList from './components/Personal/PersonalList.js'
 import PersonalAdd from './components/Personal/PersonalAdd.js'
 import Solicitudes from './components/Solicitudes'
@@ -94,6 +95,9 @@ class App extends Component {
         </Route>
         <Route path='/Solicitudes/SolicitudEspecifica'>          
           <SolicitudEspecifica codigoNotificacion={this.state.codigoNotificacion} />
+        </Route>
+        <Route path='/Dashboard'>          
+          <Dashboard />
         </Route>
       </BrowserRouter>
 
