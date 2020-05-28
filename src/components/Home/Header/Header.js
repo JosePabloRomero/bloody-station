@@ -4,6 +4,7 @@ import fire from '../../../config/Fire'
 import { makeStyles } from '@material-ui/styles'
 import HomeIcon from '@material-ui/icons/Home';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import { Link } from 'react-router-dom';
 const useStyles = makeStyles(() => ({
     root: {
         background: 'linear-gradient(45deg, #E03A3F 30%, #FF8E53 90%)'
@@ -44,6 +45,8 @@ const Header = (props) => {
                     <IconButton
                         aria-label="Home"
                         style={{ color: '#fff' }}
+                        component={Link}
+                        to='/Home'
                     >
                         <HomeIcon />
                     </IconButton>

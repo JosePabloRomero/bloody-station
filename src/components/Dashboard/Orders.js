@@ -11,7 +11,7 @@ function createData(id, nombre, cedula, correo, donaciones, tipoSangre) {
   return { id, nombre, cedula, correo, donaciones, tipoSangre };
 }
 
-const rows = [];
+let rows = [];
 function agregarDatos(listaUsuarios) {
   listaUsuarios.sort(function (a, b) {
     if (a.donaciones > b.donaciones) {
@@ -32,7 +32,7 @@ function agregarDatos(listaUsuarios) {
 function useListaUsuarios() {
   const [listaUsuarios, setListaUsuarios] = useState([])
 
-  useEffect(() => {    
+  useEffect(() => {       
       fire
           .database()
           .ref('Usuario/')
@@ -44,12 +44,14 @@ function useListaUsuarios() {
                   uid: key,
               }))
               setListaUsuarios(listaUsuarios)
-          })          
+          })  
+               
   }, [])
   return listaUsuarios
 }
 export default function Orders() {
   const listaUsuarios = useListaUsuarios();
+  rows = []
   agregarDatos(listaUsuarios)
   
   return (

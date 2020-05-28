@@ -16,9 +16,8 @@ import Solicitudes from './components/Solicitudes'
 import ListaSolicitudes from './components/Solicitudes/ListaSolicitudes.js'
 import AgregarSolicitud from './components/Solicitudes/SolicitudesAdd.js'
 import SolicitudEspecifica from './components/Solicitudes/SolicitudEspecifica.js'
-const navigation = () => {
+import HospitalEdit from './components/Hospitales/HospitalEdit.js'
 
-}
 
 class App extends Component {
   constructor() {
@@ -72,6 +71,9 @@ class App extends Component {
         </Route>
         <Route path="/Hospitales/AgregarHospital" >
           <HospitalesAdd />
+        </Route>
+        <Route path="/Hospitales/EditarHospitales" >
+          <HospitalEdit />
         </Route>
         <Route path="/Personal" >
           <Header />
