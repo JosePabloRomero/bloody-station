@@ -7,8 +7,7 @@ import CardHeader from "@material-ui/core/CardHeader";
 import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import { CardMedia } from "@material-ui/core";
-
-
+import { Link } from 'react-router-dom';
 const useStyles = makeStyles(() => ({
     root: {
         background: '#f0f0f0'
@@ -32,31 +31,43 @@ const useStyles = makeStyles(() => ({
         }
     },
     card: {
-        background:  '#003b75',
+        background: '#003b75',
         color: '#fff'
     }
 }))
 
-function useHospitales() {
-    const [hospital, setHospital] = useState([])
+
+function useNotificaciones() {
+    const [notificaciones, setNotificaciones] = useState([])
 
     useEffect(() => {
         fire
             .database()
-            .ref('Hospital')
+            .ref('Notificaciones/')
+            .orderByChild('CodigoNotificacion')
             .on('value', snapshot => {
-                const newHospital = snapshot.val()
-                setHospital(newHospital)
+                const newNotificacion = snapshot.val()
+                const listaNotificaciones = Object.keys(newNotificacion).map(key => ({
+                    ...newNotificacion[key],
+                    uid: key,
+                }))
+                setNotificaciones(listaNotificaciones)
             })
     }, [])
-    return hospital
+    return notificaciones
 }
 
 
-const App = () => {
+const App = (props) => {
     const classes = useStyles()
-    const hospitales = useHospitales()
+    let listaNotificaciones = useNotificaciones()
+    listaNotificaciones.reverse()
 
+    const handleClick = (codigoNotificacion) => {
+        return (          
+            props.handleCodigoNotificacion(codigoNotificacion)                                
+        )
+    }
     return (
         <div>
             <Grid container direction="column" style={{ paddingTop: '20px' }}>
@@ -67,45 +78,47 @@ const App = () => {
                             <Grid item xs={12} sm={12}>
                                 <div>
                                     <div className={classes.child}>
-                                        <Typography variant="h3">Lista de Hospitales
+                                        <Typography variant="h3">Lista de Solicitudes
                                         </Typography>
 
                                     </div>
                                     <Grid item container spacing={2} style={{ paddingTop: '20px', paddingBottom: '20px', paddingLeft: '20px', paddingRight: '20px' }}>
 
-                                        {hospitales.map((hospital) =>
+                                        {listaNotificaciones.map((notificacion) =>
 
-                                            <Grid item item xs={12} sm={4} key={hospital.codigo}>
+                                            <Grid item item xs={12} sm={4} key={notificacion.uid}>
                                                 <Card>
                                                     <CardHeader
-                                                        title={hospital.nombre}
-                                                        className={classes.card}                                                        
+                                                        title={notificacion.tipoSangre + " " + notificacion.nombreHospital}
+                                                        className={classes.card}
                                                     />
 
 
-                                                    <CardMedia style={{ height: "150px" }} image={hospital.url} />
+                                                    <CardMedia style={{ height: "150px" }} image={notificacion.urlHospi} />
                                                     <CardContent >
                                                         <div>
                                                             <Typography variant="body2" component="p">
-
-                                                                <strong>Latitud:</strong> {hospital.latitud} <br></br>
-                                                                <strong>Longitud:</strong> {hospital.longitud}<br></br>
-                                                                <strong>codigo:</strong> {hospital.codigo}<br></br>
-                                                                <strong>telefono:</strong> {hospital.telefono}<br></br>
-                                                                <strong>direccion:</strong> {hospital.direccion}<br></br>
+                                                                <strong>Fecha:</strong> {notificacion.fecha} <strong> Hora:</strong> {notificacion.hora} <br></br>
+                                                                {notificacion.comentarios} <br></br>
+                                                                <strong>codigoHospital:</strong> {notificacion.codigoHospital}<br></br>
 
                                                             </Typography>
                                                         </div>
                                                     </CardContent>
-                                                    {/* <CardActions>
+                                                    <CardActions>
                                                         <Button
                                                             size="small"
                                                             variant="contained"
                                                             className={classes.button}
-                                                            to={hospital.url}>
-                                                            Ver Ubicación
+                                                            onClick={() => {
+                                                                handleClick(notificacion.codigoNotificacion)
+                                                            }}
+                                                            component={Link}
+                                                            to="/Solicitudes/SolicitudEspecifica"
+                                                        >
+                                                            Posibles Donantes
                                                         </Button>
-                                                    </CardActions> */}
+                                                    </CardActions>
                                                 </Card>
                                             </Grid>
                                         )}

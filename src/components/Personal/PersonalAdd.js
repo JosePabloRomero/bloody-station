@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { makeStyles } from '@material-ui/styles'
 import { Grid, Typography, Button, TextField } from '@material-ui/core'
 import fire from '../../config/Fire'
+
 const useStyles = makeStyles(() => ({
     root: {
         background: '#f0f0f0',
@@ -38,49 +39,63 @@ function useHospitales() {
                 const newHospital = snapshot.val()
                 setHospital(newHospital)
             })
-    }, [])    
+    }, [])
     return hospital
 }
 
 const App = () => {
     const classes = useStyles()
-    const hospitales = useHospitales()
+    //const hospitales = useHospitales()
 
 
-    const writeHospital = (id, newHospital) => {
+    const writeUser = (newUsuario) => {
         fire
             .database()
-            .ref(`Hospital/${id}/`)
-            .set(newHospital)
+            .ref(`PersonalAutorizado/`)
+            .push()
+            .set(newUsuario)
     }
 
-    const handleSubmit = (event) => {        
-        event.preventDefault()      
-          
-        let idNumero = 1     
-        if(hospitales !== null && hospitales !== undefined ) {
-            idNumero = parseInt(hospitales.pop().codigo) + 1
-            console.log('hola')
-        }           
-        const id = idNumero.toString()        
-        const newHospital = {
-            codigo: id,
-            latitud: event.target[2].value,
-            longitud: event.target[4].value,
-            nombre: event.target[0].value,
-            telefono: event.target[6].value,
-            direccion: event.target[8].value,
-            url: event.target[10].value,
-            sangreABn: '0',
-            sangreAn: '0',
-            sangreAp: '0',
-            sangreBn: '0',
-            sangreOn: '0'         
-        }
-        console.log(newHospital)       
-        writeHospital(id,newHospital)  
-        alert("El Hospital: " + newHospital.nombre + ", se agregó con exito")  
+    const handleRegister = (user) => {        
+        fire.auth().createUserWithEmailAndPassword(user.correo, user.password)
+            .catch((error) => {
+                console.log(error)
+                validateRegister(error)
+
+            })
+        writeUser(user)
+        alert("El usuario: " + user.nombres + " " + user.apellidos + ", se agregó con exito")
     }
+    const validateRegister = (error) => {
+        switch (error.code) {
+            case 'auth/invalid-email':
+                alert('¡El email no es valido!')
+                break;
+            case 'auth/weak-password':
+                alert('La contraseña es demasiado corta')
+                break;
+            case 'auth/email-already-in-use':
+                alert('Este email ya fue registrado previamente')
+                break;
+            default:
+                break;
+        }
+    }
+
+    const handleSubmit = (event) => {
+        event.preventDefault()
+        const newUsuario = {
+            nombres: event.target[0].value,
+            apellidos: event.target[2].value,
+            cedula: event.target[4].value,
+            contacto: event.target[6].value,
+            correo: event.target[8].value,
+            codigoHospital: event.target[10].value,
+            password: event.target[12].value
+        }
+        handleRegister(newUsuario)
+    }
+
     return (
         <div>
             <Grid container direction="column" style={{ paddingTop: '20px' }}>
@@ -91,7 +106,7 @@ const App = () => {
                             <Grid item xs={12} sm={12}>
                                 <div>
                                     <div className={classes.child}>
-                                        <Typography variant="h3">Agregar un Hospital
+                                        <Typography variant="h3">Agregar un nuevo usuario autorizado para una entidad de salud registrada
                                         </Typography>
                                     </div>
                                     <form onSubmit={handleSubmit}>
@@ -99,64 +114,72 @@ const App = () => {
 
                                             <Grid item xs={12} md={4}>
                                                 <TextField
-                                                    id="nombre-hospital"
-                                                    label="Nombre del Hospital"
+                                                    id="nombres"
+                                                    label="Nombre del usuario"
                                                     defaultValue=""
-                                                    helperText="Ingrese el nombre del hospital"
+                                                    helperText="Ingrese el nombre del usuario autorizado"
                                                     variant="outlined"
                                                 />
                                             </Grid>
                                             <Grid item xs={12} md={4}>
                                                 <TextField
-                                                    id="latitud"
-                                                    label="Coordenada de latitud"
+                                                    id="apellidos"
+                                                    label="apellidos del usuario"
                                                     defaultValue=""
-                                                    helperText="Ingrese la ubicación del hospital (latitud)"
+                                                    helperText="Ingrese los apellidos del usuario autorizado"
                                                     variant="outlined"
                                                 />
                                             </Grid>
                                             <Grid item xs={12} md={4}>
                                                 <TextField
-                                                    id="longitud"
-                                                    label="Coordenada de longitud"
+                                                    id="cedula"
+                                                    label="cedula del usuario"
                                                     defaultValue=""
-                                                    helperText="Ingrese la ubicación del hospital (longitud)"
+                                                    helperText="Ingrese la cedula del usuario autorizado"
                                                     variant="outlined"
                                                 />
 
                                             </Grid>
                                             <Grid item xs={12} md={4}>
                                                 <TextField
-                                                    id="telefono"
-                                                    label="Telefono del hospital"
+                                                    id="contacto"
+                                                    label="Numero de telefono/celular"
                                                     defaultValue=""
-                                                    helperText="Ingrese el telefono principal del hospital"
+                                                    helperText="Ingrese el telefono o celular del usuario"
                                                     variant="outlined"
                                                 />
                                             </Grid>
                                             <Grid item xs={12} md={4}>
                                                 <TextField
-                                                    id="direccion"
-                                                    label="Dirección del hospital"
+                                                    id="correo"
+                                                    label="correo del usuario"
                                                     defaultValue=""
-                                                    helperText="Ingrese la ubicación del hospital (Dirección)"
+                                                    helperText="Ingrese el correo electronico del usuario"
                                                     variant="outlined"
                                                 />
-
                                             </Grid>
                                             <Grid item xs={12} md={4}>
                                                 <TextField
-                                                    id="url"
-                                                    label="foto del hospital"
+                                                    id="codigoHospital"
+                                                    label="codigo del hospital"
                                                     defaultValue=""
-                                                    helperText="Ingrese la dirección url de la foto"
+                                                    helperText="Ingrese el codigo del hospital que representa"
                                                     variant="outlined"
                                                 />
-
+                                            </Grid>
+                                            <Grid item xs={12} md={12}>
+                                                <TextField
+                                                    id="password"
+                                                    label="Ingrese la contraseña"
+                                                    defaultValue=""
+                                                    type="password"
+                                                    helperText="Ingrese la contraseña de acceso para el usuario"
+                                                    variant="outlined"
+                                                />
                                             </Grid>
                                             <Grid item xs={12} md={12} style={{ paddingTop: '5%' }}>
                                                 <Button variant="contained" className={classes.button} type="submit" >
-                                                    Agregar Hospital
+                                                    Agregar Usuario
                                                 </Button>
                                             </Grid>
 

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { makeStyles } from '@material-ui/styles'
 import { Grid, Typography, IconButton, Button } from '@material-ui/core'
 import fire from '../../config/Fire'
+import InfoIcon from '@material-ui/icons/Info';
 import Card from "@material-ui/core/Card";
 import CardHeader from "@material-ui/core/CardHeader";
 import CardActions from "@material-ui/core/CardActions";
@@ -37,26 +38,44 @@ const useStyles = makeStyles(() => ({
     }
 }))
 
-function useHospitales() {
-    const [hospital, setHospital] = useState([])
+function ImagenAleatoria() {
+    const listaImagenes = [
+        "https://images.unsplash.com/photo-1497752531616-c3afd9760a11?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+        "https://images.unsplash.com/photo-1503066211613-c17ebc9daef0?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+        "https://images.unsplash.com/photo-1437622368342-7a3d73a34c8f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1400&q=80",
+        "https://images.unsplash.com/photo-1470688090067-6d429c0b2600?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1353&q=80",
+        "https://images.unsplash.com/photo-1459262838948-3e2de6c1ec80?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1349&q=80",
+        "https://images.unsplash.com/photo-1494256997604-768d1f608cac?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1401&q=80",
+        "https://images.unsplash.com/photo-1503431128871-cd250803fa41?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80"
+    ]
+    const aleatorio = parseInt(Math.random() * ((listaImagenes.length - 1) - 0) + 0);    
+    return listaImagenes[aleatorio]
+
+}
+
+function usePersonal() {
+    const [personal, setPersonal] = useState([])
 
     useEffect(() => {
         fire
             .database()
-            .ref('Hospital')
+            .ref('PersonalAutorizado/')
             .on('value', snapshot => {
-                const newHospital = snapshot.val()
-                setHospital(newHospital)
+                const newPersonal = snapshot.val()                
+                const users = Object.keys(newPersonal).map(key => ({
+                    ...newPersonal[key],
+                    uid: key,
+                  }));
+                  setPersonal(users)
             })
-    }, [])
-    return hospital
+    }, [])    
+    return personal
 }
 
 
 const App = () => {
     const classes = useStyles()
-    const hospitales = useHospitales()
-
+    const personalList = usePersonal()    
     return (
         <div>
             <Grid container direction="column" style={{ paddingTop: '20px' }}>
@@ -67,45 +86,44 @@ const App = () => {
                             <Grid item xs={12} sm={12}>
                                 <div>
                                     <div className={classes.child}>
-                                        <Typography variant="h3">Lista de Hospitales
+                                        <Typography variant="h3">Lista de personal autorizado para realizar solicitudes
                                         </Typography>
 
                                     </div>
                                     <Grid item container spacing={2} style={{ paddingTop: '20px', paddingBottom: '20px', paddingLeft: '20px', paddingRight: '20px' }}>
+                                        {personalList.map((personal) =>
 
-                                        {hospitales.map((hospital) =>
-
-                                            <Grid item item xs={12} sm={4} key={hospital.codigo}>
+                                            <Grid item xs={12} sm={4} key={personal.uid}>
                                                 <Card>
                                                     <CardHeader
-                                                        title={hospital.nombre}
+                                                        title={personal.nombres + " " + personal.apellidos}
                                                         className={classes.card}                                                        
                                                     />
 
 
-                                                    <CardMedia style={{ height: "150px" }} image={hospital.url} />
+                                                    <CardMedia style={{ height: "150px" }} image={ImagenAleatoria()} />
                                                     <CardContent >
                                                         <div>
                                                             <Typography variant="body2" component="p">
 
-                                                                <strong>Latitud:</strong> {hospital.latitud} <br></br>
-                                                                <strong>Longitud:</strong> {hospital.longitud}<br></br>
-                                                                <strong>codigo:</strong> {hospital.codigo}<br></br>
-                                                                <strong>telefono:</strong> {hospital.telefono}<br></br>
-                                                                <strong>direccion:</strong> {hospital.direccion}<br></br>
-
+                                                                <strong>Nombres:</strong> {personal.nombres} <br></br>
+                                                                <strong>Apellidos:</strong> {personal.apellidos}<br></br>
+                                                                <strong>Cedula:</strong> {personal.cedula}<br></br>
+                                                                <strong>Numero Contacto:</strong> {personal.contacto}<br></br>
+                                                                <strong>Correo:</strong> {personal.correo}<br></br>
+                                                                <strong>Hospital:</strong> {personal.codigoHospital}<br></br>
                                                             </Typography>
                                                         </div>
                                                     </CardContent>
-                                                    {/* <CardActions>
+                                                    <CardActions>
                                                         <Button
                                                             size="small"
                                                             variant="contained"
                                                             className={classes.button}
-                                                            to={hospital.url}>
-                                                            Ver Ubicación
+                                                            >
+                                                            Editar
                                                         </Button>
-                                                    </CardActions> */}
+                                                    </CardActions>
                                                 </Card>
                                             </Grid>
                                         )}

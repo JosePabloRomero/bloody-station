@@ -17,11 +17,11 @@ const App = () => {
             <Grid container direction="column">                                        
                 <ThemeProvider theme={theme}>
                     <Grid item container style={{paddingTop:'100px'}}>
-                        <Grid item xs={0} sm={2} />
-                        <Grid item xs={12} sm={8} className={classes.mainGrid}>
+                        <Grid item xs={0} sm={1} />
+                        <Grid item xs={12} sm={10} className={classes.mainGrid}>
                             <Content />
                         </Grid>
-                        <Grid item xs={0} sm={2} />
+                        <Grid item xs={0} sm={1} />
                     </Grid>
                 </ThemeProvider>
             </Grid>
